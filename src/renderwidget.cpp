@@ -2,6 +2,8 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QColor>
+#include <QFont>
+#include <QDebug>
 
 RenderWidget::RenderWidget(bool usePixmap, QWidget *parent) : QWidget(parent), m_usePixmap(usePixmap)
 {
@@ -22,6 +24,18 @@ void RenderWidget::paintEvent(QPaintEvent *event)
 void RenderWidget::paint(QPaintDevice *pd)
 {
 	QPainter p(pd);
+
+	if (m_usePixmap) {
+		QWidget *w = this;  // widget on which the pixmap should be drawn later on
+
+		if (pd->logicalDpiY() != w->logicalDpiY()) {
+			// workaround the scaling by adapting the font
+			QFont f(p.font());
+			f.setPointSizeF((f.pointSizeF() * w->logicalDpiY()) / pd->logicalDpiY());
+			p.setFont(f);
+		}
+	}
+
 	p.fillRect(0, 0, pd->width(), pd->height(), QColor(192, 192, 192));
 
 	QFontMetrics fm = p.fontMetrics();
