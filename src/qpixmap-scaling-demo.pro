@@ -8,12 +8,12 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = uiscaling
+TARGET = qpixmap-scaling-demo
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
+    mainwindow.cpp \
     renderwidget.cpp
 
 HEADERS  += mainwindow.h \
